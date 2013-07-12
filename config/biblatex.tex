@@ -1,0 +1,40 @@
+\usepackage[
+	maxcitenames=2,
+	style=authoryear,
+	uniquelist=minyear, %http://tex.stackexchange.com/q/67961/6255
+	dashed=false,
+	abbreviate=false,
+	natbib=true,
+	backref=true,
+	backend=biber]{biblatex}
+
+% prevent pagebreak within entries
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
+
+\setlength\bibitemsep{1.7\itemsep}
+\bibhang=20pt
+%\setcounter{biburlnumpenalty}{100}
+%\setcounter{biburlucpenalty}{100}
+%\setcounter{biburllcpenalty}{100}
+
+% http://tex.stackexchange.com/questions/76133/bibliography-backref-on-new-line-with-smaller-font-size
+\renewcommand*{\finentrypunct}{}
+\renewbibmacro*{pageref}{%
+  \addperiod% NEW
+  \iflistundef{pageref}
+    {}
+%    {\printtext[parens]{% DELETED
+    {\newline\footnotesize\printtext[parens]{% NEW
+       \ifnumgreater{\value{pageref}}{1}
+         {\bibstring{backrefpages}\ppspace}
+     {\bibstring{backrefpage}\ppspace}%
+ %      \printlist[pageref][-\value{listtotal}]{pageref}}}}% DELETED
+       \printlist[pageref][-\value{listtotal}]{pageref}\addperiod}}}% NEW
+
+
+% general entry rules:
+
+% in journal: no publisher
+% in proceedings, in book, book: publisher (+city if small publisher)
+
+\addbibresource{bibliography.bib}

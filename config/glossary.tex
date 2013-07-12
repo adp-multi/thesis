@@ -1,0 +1,451 @@
+\usepackage[nonumberlist,toc]{glossaries}
+\makeglossaries
+
+\newacronym{ADP}{ADP}{algebraic dynamic programming}
+\newacronym{ADP-CFL}{ADP-CFL}{ADP for context-free languages}
+\newacronym{ADP-MCFL}{ADP-MCFL}{ADP for multiple context-free languages}
+\newacronym{CFG}{CFG}{context-free grammar}
+\newacronym{CFL}{CFL}{context-free language}
+\newacronym{DNA}{DNA}{deoxyribonucleic acid}
+\newacronym{DSL}{DSL}{domain-specific language}
+\newacronym{MCFG}{MCFG}{multiple context-free grammar}
+\newacronym{MCFL}{MCFL}{multiple context-free language}
+\newacronym{RNA}{RNA}{ribonucleic acid}
+
+%%% FIELDS OF STUDY
+%%%%%%%%%%%%%%%%%%%
+
+\newglossaryentry{bioinformatics}{
+		name={Bioinformatics},
+		text={bioinformatics},
+    description={Although no generally accepted definition exists (partly due to the overlap with the field of computational biology) it is in its broadest sense a combination of biological and computer sciences. One possible definition was formulated by the US National Institute of Health: ``Research, development, or application of computational tools and approaches for expanding the use of biological, medical, behavioral or health data, including those to acquire, store, organize, archive, analyze, or visualize such data.'' \citep{huerta_nih_2000}}}
+    
+\newglossaryentry{universalalgebra}{
+		name={Universal algebra},
+		text={universal algebra},
+    description={A branch of mathematics that studies \emph{\glspl{algebraicstructure}} as a general concept}}
+
+
+%%% IMPLEMENTATION RELATED
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\newglossaryentry{cuda}{
+		name={CUDA},
+		text={CUDA},
+    description={A parallel programming model and computing platform for graphics processing units of NVIDIA. See \url{http://developer.nvidia.com/cuda}}}
+    
+\newglossaryentry{scala}{
+		name={Scala},
+		text={Scala},
+    description={A multi-paradigm (in particular object-oriented, functional, imperative) programming language with static typing and (by default) strict evaluation. See \url{http://scala-lang.org}}}
+
+\newglossaryentry{haskell}{
+		name={Haskell},
+		text={Haskell},
+    description={A purely functional programming language with static typing and (by default) \emph{\gls{lazyevaluation}}. See \url{http://haskell.org}}}
+       
+\newglossaryentry{lazyevaluation}{
+		name={Lazy evaluation},
+		text={lazy evaluation},
+    description={An evaluation strategy which defers evaluation of an expression until its value is needed}}
+
+\newglossaryentry{higherorderfun}{
+		name={Higher-order function},
+		text={higher-order function},
+    description={A function which accepts one or more functions as arguments or returns a function}}
+    
+\newglossaryentry{adt}{
+		name={Algebraic data type},
+		text={algebraic data type},
+    description={A sum type of product types. For example, the list type in Haskell: \texttt{data List a = Nil | Cons a (List a)}}}
+    
+\newglossaryentry{dsl}{
+		name={Domain-specific language},
+		text={domain-specific language},
+    description={A \emph{\gls{formallanguage}} for describing problems of a specific problem domain. See also \emph{\gls{embeddedDSL}} and \emph{\gls{externalDSL}}}}
+      
+\newglossaryentry{embeddedDSL}{
+		name={Embedded DSL},
+		text={embedded DSL},
+    description={A \emph{\gls{dsl}} that is implemented and used within a host programming language. It is bound by features of its host language, e.g. the power of the type system}}
+    
+\newglossaryentry{externalDSL}{
+		name={External DSL},
+		text={external DSL},
+    description={A \emph{\gls{dsl}} which uses a dedicated compiler (or interpreter). Compared to \emph{\glspl{embeddedDSL}}, there are no restrictions imposed by a host language}}
+    
+\newglossaryentry{syntacticsugar}{
+		name={Syntactic sugar},
+		text={syntactic sugar},
+    description={A higher-level, often more convenient, syntax which can be transformed (desugared) to a limited set of core constructs}}
+      
+\newglossaryentry{parsercombinator}{
+		name={Parser combinator},
+		text={parser combinator},
+    description={A \emph{\gls{higherorderfun}} which accepts one or more parsers and returns a new parser. For a definition of parsers, see \cref{sec:adpmulti_impl}}}
+    
+       
+%%% GRAMMARS and LANGUAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+     
+\newglossaryentry{alphabet}{
+		name={Alphabet},
+		text={alphabet},
+    description={A finite set of symbols. See \vref{def:alphabetwords}}}
+    
+\newglossaryentry{rankedalphabet}{
+		name={Ranked alphabet},
+		text={ranked alphabet},
+    description={An \emph{\gls{alphabet}}, and a function that assigns an arity to each symbol}}
+    
+\newglossaryentry{word}{
+		name={Word},
+		text={word},
+    description={A sequence of symbols. See \vref{def:alphabetwords}}}
+    
+\newglossaryentry{formallanguage}{
+		name={Formal language},
+		text={formal language},
+    description={A set of \emph{\glspl{word}}. See \vref{def:formallanguage}}}
+    
+   
+\newglossaryentry{tree}{
+		name={Tree},
+		text={tree},
+    description={A cycle-free \emph{\gls{directedgraph}} with a designated root node. See \vref{def:tree}. Trees in this work are ordered and labelled. \emph{\Glspl{term}} are an alternative visualization of such trees}}
+    
+\newglossaryentry{directedgraph}{
+		name={Directed graph},
+		text={directed graph},
+    description={A set $V$ of nodes together with a set $E \subseteq V \times V$ of edges.  See \citet[Def. 1.17, 1.18]{kallmeyer_parsing_2010} for definitions of in-degree, out-degree, accessibility, and cycles}}
+    
+    
+\newglossaryentry{formaltreelanguage}{
+		name={Formal tree language},
+		text={formal tree language},
+    description={A set of \emph{\glspl{tree}}. See \vref{def:formaltreelanguage}}}
+    
+\newglossaryentry{term}{
+		name={Term},
+		text={term},
+    description={An expression formed from variables, function or relation symbols, and parentheses. See \vref{def:correct_terms}}}
+    
+\newglossaryentry{groundterm}{
+		name={Ground term},
+		text={ground term},
+    description={A \emph{\gls{term}} without variables. See \vref{def:ground_term}}}
+    
+\newglossaryentry{language}{
+		name={Language},
+		text={language},
+    description={Depending on the context, either a \emph{\gls{formallanguage}} or a \emph{\gls{formaltreelanguage}}}}
+    
+\newglossaryentry{derivationtree}{
+		name={Derivation tree},
+		text={derivation tree},
+    description={A \emph{\gls{tree}} representing a decomposition of an object (here \emph{\glspl{word}}) according to a grammar. See \cref{def:derivtree_cfg,def:derivtree_mcfg} on \cpageref{def:derivtree_cfg,def:derivtree_mcfg}}}
+    
+\newglossaryentry{rtg}{
+		name={Regular tree grammar},
+		text={regular tree grammar},
+    description={A grammar which generates a set of trees. See \cref{sec:regular_tree_grammars}}}
+    
+\newglossaryentry{cfg}{
+		name={Context-free grammar},
+		text={context-free grammar},
+    description={A grammar which generates a \emph{\gls{cfl}}. See \cref{sec:cfgs}}}
+    
+\newglossaryentry{cfl}{
+		name={Context-free language},
+		text={context-free language},
+    description={A \emph{\gls{formallanguage}} generated by a \emph{\gls{cfg}}. See \cref{sec:cfgs}}}
+    
+\newglossaryentry{pumpinglemmacfl}{
+		name={Pumping lemma for context-free languages},
+		text={pumping lemma for context-free languages},
+    description={A lemma which describes necessary conditions that a \emph{\gls{cfl}} must have. See \citet[sect. 7.2]{hopcroft_introduction_2001} for a complete description with examples}}
+         
+\newglossaryentry{mcfg}{
+		name={Multiple context-free grammar},
+		text={multiple context-free grammar},
+    description={A grammar which generates a \emph{\gls{mcfl}}. See \cref{sec:mcfgs}}}
+    
+\newglossaryentry{mcfl}{
+		name={Multiple context-free language},
+		text={multiple context-free language},
+    description={A \emph{\gls{formallanguage}} generated by a \emph{\gls{mcfg}}. See \cref{sec:mcfgs}}}
+    
+\newglossaryentry{csl}{
+		name={Context-sensitive language},
+		text={context-sensitive language},
+    description={A \emph{\gls{formallanguage}} generated by a context-sensitive grammar. See \citet{chomsky_certain_1959}}}
+    
+\newglossaryentry{sag}{
+		name={S-attributed context-free grammar},
+		text={S-attributed context-free grammar},
+    description={A \emph{\gls{cfg}} with synthesized attributes. Attributes (inherited and synthesized) for \emph{\glspl{cfg}} were introduced by \citet{knuth_semantics_1968} to specify the semantics of a derived word, specifically in the context of programming languages and therefore unambiguous grammars. \citet{lefebvre_optimized_1995} used synthesized attributes in ambiguous \emph{\glspl{cfg}} together with an \emph{\gls{optimizationobjective}} to solve \emph{\glspl{comboptproblem}} that are suitable for \emph{\gls{dynamicprogramming}}}}
+    
+\newglossaryentry{mtsag}{
+		name={Multi-tape S-attributed context-free grammar},
+		text={multi-tape S-attributed context-free grammar},
+    description={An adaptation of the related \emph{\glspl{sag}} for the class of multi-tape context-free grammars \citep{lefebvre_grammar-based_1996}. See also \cref{sec:relwork}}}
+        
+\newglossaryentry{rcg}{
+		name={Range concatenation grammars},
+		text={range concatenation grammars},
+    description={A grammar formalism that generates the class of languages recognizable in PTIME. See \citet{boullier_proposal_1998}}}
+    
+\newglossaryentry{wcfg}{
+		name={Weighted context-free grammar},
+		text={weighted context-free grammar},
+    description={A \emph{\gls{cfg}} with a weight on each production. Weights are usually elements from the set over which some \emph{\gls{semiring}} is defined. See \citet{teitelbaum_context-free_1973,goodman_semiring_1999}}}
+    
+\newglossaryentry{wmcfg}{
+		name={Weighted multiple context-free grammar},
+		text={weighted multiple context-free grammar},
+    description={A \emph{\gls{mcfg}} with a weight on each production. See also \emph{\gls{wcfg}}}}
+    
+\newglossaryentry{semiring}{
+		name={Semiring},
+		text={semiring},
+    description={An \emph{\gls{algebraicstructure}} over a set together with two binary operations and two identity elements. See \vref{ex:semirings}}}
+    
+\newglossaryentry{semiringparsing}{
+		name={Semiring parsing},
+		text={semiring parsing},
+    description={A method described by \citet{goodman_semiring_1999} to calculate certain values given a grammar and a \emph{\gls{word}} by using weights (see e.g. \emph{\gls{wcfg}}) and \emph{\glspl{semiring}}}}
+    
+\newglossaryentry{wlpl}{
+		name={Weighted logic programming language},
+		text={weighted logic programming language},
+    description={A programming language that allows to write weighted logic programs. Each axiom and proposition has a weight from a set over which some \emph{\gls{semiring}} is defined. See \citet[sect. 6.2]{eisner_program_2007} for an introduction}}
+    
+\newglossaryentry{agendaparsing}{
+		name={Agenda-based parsing},
+		text={agenda-based parsing},
+    description={A generic parsing algorithm which accepts descriptions of specific parsers and grammars in form of inference rules. During parsing, a chart is used to store inferred values of items, while an agenda stores items that still have to be processed. See \citet{eisner_compiling_2005}} for an introduction}
+    
+\newglossaryentry{topdownparsing}{
+		name={Top-down parsing},
+		text={top-down parsing},
+    description={A parsing strategy which starts with the complete word and recursively divides it in all combinations to match the terminals and nonterminals of the grammar productions. A successful recursion path then corresponds to one possible \emph{\gls{derivationtree}}. One of the first top-down parsers was described by \citet{unger_global_1968}}}
+    
+\newglossaryentry{bottomupparsing}{
+		name={Bottom-up parsing},
+		text={bottom-up parsing},
+    description={A parsing strategy where the smallest parts in a word are recognized first, continuing with bigger parts (which build on the smaller ones) until the complete word is recognized. A classic example is the CYK parser, independently developed by Cocke, Younger, and Kasami in the 1960s (see e.g. \citet{younger_recognition_1967})}}
+    
+\newglossaryentry{cykparser}{
+		name={CYK parser},
+		text={CYK parser},
+    description={See \emph{\gls{bottomupparsing}}}}
+    
+\newglossaryentry{ungerparser}{
+		name={Unger parser},
+		text={Unger parser},
+    description={See \emph{\gls{topdownparsing}}}}
+    
+\newglossaryentry{yield}{
+		name={Yield},
+		text={yield},
+    description={The result of applying a \emph{\gls{yieldfunction}} to a \emph{\gls{term}}}}
+    
+\newglossaryentry{yieldfunction}{
+		name={Yield function},
+		text={yield function},
+    description={A function that transforms a \emph{\gls{term}} into a \emph{\gls{word}}. See \cref{eq:y,eq:ymcfl} on \cpageref{eq:y,eq:ymcfl}}}
+    
+\newglossaryentry{yieldsize}{
+		name={Yield size},
+		text={yield size},
+    description={For a \emph{\gls{groundterm}}, it is the length of its \emph{\gls{yield}}. For a \emph{\gls{term}} with variables, the minimum and maximum of all yield lengths are given. For yields that are tuples of \emph{\glspl{word}}, the same applies for every dimension. See \cref{eq:yieldsizecfl,eq:yieldsizemcfl} on \cpageref{eq:yieldsizecfl,eq:yieldsizemcfl}}}
+    
+\newglossaryentry{yieldparsing}{
+		name={Yield parsing},
+		text={yield parsing},
+    description={The process of calculating all \emph{\glspl{term}} that match a given \emph{\gls{yield}}. See \cref{eq:yieldparsercfl,eq:yieldparsermcfl} on \cpageref{eq:yieldparsercfl,eq:yieldparsermcfl}}}
+    
+
+%%% BIOINFORMATICS 
+%%%%%%%%%%%%%%%%%%
+
+% http://goldbook.iupac.org/M04002.html
+\newglossaryentry{molecule}{
+		name={Molecule},
+		text={molecule},
+    description={An electrically neutral group of more than one atom \citep{mcnaught_compendium_1997}}}
+
+\newglossaryentry{rna}{
+		name={Ribonucleic acid},
+		text={ribonucleic acid},
+    description={A family of \emph{\glspl{molecule}} that have various biological functions. See \cref{sec:rnaintro}}}
+    
+\newglossaryentry{dna}{
+		name={Deoxyribonucleic acid},
+		text={deoxyribonucleic acid},
+    description={A family of \emph{\glspl{molecule}} that encode genetic information. See \citet{mcnaught_compendium_1997} for a complete definition}}
+    
+\newglossaryentry{nucleotide}{
+		name={Nucleotides},
+		text={nucleotide},
+    description={\emph{\Glspl{molecule}} which are the building blocks of RNA and DNA. See \cref{sec:rnaintro}}}
+    
+\newglossaryentry{nucleobase}{
+		name={Nucleobase},
+		text={nucleobase},
+    description={The part of a \emph{\gls{nucleotide}}} that enables base pairing. See \cref{sec:rnaintro}}
+    
+\newglossaryentry{basepair}{
+		name={Base pair},
+		text={base pair},
+    description={Two \emph{\glspl{nucleobase}}} which formed a hydrogen bond between each other. See \cref{sec:rnaintro}}
+    
+\newglossaryentry{protein}{
+		name={Proteins},
+		text={protein},
+    description={Large \emph{\glspl{molecule}} responsible for many biological functions, for example, replication of DNA. See \citet{mcnaught_compendium_1997} for a complete definition}}
+    
+\newglossaryentry{enzyme}{
+		name={Enzymes},
+		text={enzyme},
+    description={Large \emph{\glspl{molecule}} which selectively accelerate chemical reactions. See \citet{mcnaught_compendium_1997} for a complete definition}}
+    
+\newglossaryentry{invitro}{
+		name={In vitro},
+		text={in vitro},
+    description={Latin for \emph{in glass} -- laboratory studies of components (cells etc.) that have been isolated from an organism}}
+
+% http://goldbook.iupac.org/G02629.html
+\newglossaryentry{freeenergy}{
+		name={Free energy},
+		text={free energy},
+    description={The amount of work extractable from a system (e.g. RNA molecules). See \citet{mcnaught_compendium_1997} for a complete definition}}
+    
+\newglossaryentry{rnaprimarystructure}{
+		name={RNA primary structure},
+		text={RNA primary structure},
+    description={A sequence of \emph{\glspl{nucleobase}}. See \cref{sec:rnaintro}}}
+
+\newglossaryentry{rnasecondarystructure}{
+		name={RNA secondary structure},
+		text={RNA secondary structure},
+    description={The set of \emph{\glspl{basepair}} in an RNA molecule. See \cref{sec:rnaintro}}}
+    
+\newglossaryentry{dbn}{
+		name={Dot-bracket notation},
+		text={dot-bracket notation},
+    description={A form of visualization for \emph{\glspl{rnasecondarystructure}}. See \vref{fig:dot_bracket_sec_struc}}}
+    
+\newglossaryentry{linearizedgraph}{
+		name={Linearized graph},
+		text={linearized graph},
+    description={A graph representing an \emph{\gls{rnasecondarystructure}} with the nodes fixed on a horizontal line in the order of the associated \emph{\gls{rnaprimarystructure}}. See \vref{fig:linear_sec_struc}}}
+    
+\newglossaryentry{rnatertiarystructure}{
+		name={RNA tertiary structure},
+		text={RNA tertiary structure},
+    description={Atomic coordinates of an RNA \emph{\gls{molecule}}}}
+    
+\newglossaryentry{rnaalignmentproblem}{
+		name={RNA alignment problem},
+		text={RNA alignment problem},
+    description={A family of problems with the goal of aligning multiple \emph{\glspl{rnaprimarystructure}}, usually taking into account the base pairing of corresponding \emph{\glspl{rnasecondarystructure}}. See \citet{eddy_rna_1994} for an introduction}}
+    
+\newglossaryentry{rnasecstrucprediction}{
+		name={RNA secondary structure prediction},
+		text={RNA secondary structure prediction},
+    description={The problem of finding \emph{\glspl{rnasecondarystructure}} with lowest \emph{\gls{freeenergy}} given an \emph{\gls{rnaprimarystructure}}. See \cref{ch:running_ex}}}
+       
+
+%%% UNIVERSAL ALGEBRA
+%%%%%%%%%%%%%%%%%%%%%
+
+\newglossaryentry{sort}{
+		name={Sort},
+		text={sort},
+    description={A placeholder symbol in a \emph{\gls{signature}} for different domains which are made concrete in \emph{\glspl{structure}}. See \vref{def:signature}}}
+
+\newglossaryentry{structuraldescription}{
+		name={Structural description},
+		text={structural description},
+    description={A function or relation symbol together with \emph{\glspl{sort}} used as placeholders for domain and codomain. See \vref{def:signature}}}
+
+\newglossaryentry{signature}{
+		name={Signature},
+		text={signature},
+    description={A set of \emph{\glspl{structuraldescription}} and associated \emph{\glspl{sort}}. See \vref{def:signature}}}
+    
+\newglossaryentry{algebraicsignature}{
+		name={Algebraic signature},
+		text={algebraic signature},
+    description={A \emph{\gls{signature}} without relation symbols. See \vref{def:alg_signature}}}
+
+\newglossaryentry{structure}{
+		name={Structure},
+		text={structure},
+    description={Contains interpretations for the symbols of a \emph{\gls{signature}} and
+defines a domain for each \emph{\gls{sort}}. See also \emph{\gls{algebraicstructure}} and \cref{sec:adp_problem_solution}}}
+
+\newglossaryentry{algebraicstructure}{
+		name={Algebraic structure},
+		text={algebraic structure},
+    description={A \emph{\gls{structure}} for an \emph{\gls{algebraicsignature}}}}
+    
+\newglossaryentry{algebra}{
+		name={Algebra},
+		text={algebra},
+    description={See \emph{\gls{algebraicstructure}}}}
+       
+
+%%% COMBINATORIAL OPTIMIZATION and DYNAMIC PROGRAMMING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       
+\newglossaryentry{comboptproblem}{
+		name={Combinatorial optimization problem},
+		text={combinatorial optimization problem},
+    description={A \emph{\gls{searchspace}} together with a \emph{\gls{scoringfunction}} and an \emph{\gls{optimizationobjective}}. The solution consists of those elements from the search space that satisfy the optimization objective}}
+      
+\newglossaryentry{searchspace}{
+		name={Search space},
+		text={search space},
+    description={A set of elements. See also \emph{\gls{comboptproblem}}}}
+
+\newglossaryentry{scoringfunction}{
+		name={Scoring function},
+		text={scoring function},
+    description={A function that assigns a value to each element of a \emph{\gls{searchspace}}. See also \emph{\glspl{comboptproblem}}}}
+
+% info: not used in RNA chapter but in rel.work, ex. 8, Def. 15 (ev.algebras)
+% übersetzt Optimierungsziel, reicht als glossary eintrag
+\newglossaryentry{optimizationobjective}{
+		name={Optimization objective},
+		text={optimization objective},
+    description={The goal of a \emph{\gls{comboptproblem}}, e.g. maximization of scores}}
+   
+\newglossaryentry{dynamicprogramming}{
+		name={Dynamic programming},
+		text={dynamic programming},
+    description={An efficient method for solving problems that exhibit \emph{\gls{optimalsubstructure}} and \emph{\gls{overlappingsubproblems}}. It avoids repeated computations by storing solutions of subproblems. In comparison, divide-and-conquer solves problems with \emph{\gls{optimalsubstructure}} but does not store solutions to subproblems and is therefore suited for problems whose subproblems do not overlap. See \cref{sec:adpcfl_efficiency}, and for an extensive introduction \citet[chapter 15]{cormen_introduction_2009}}}
+       
+\newglossaryentry{optimalsubstructure}{
+		name={Optimal substructure},
+		text={optimal substructure},
+    description={A problem has optimal substructure if its solution can be defined recursively by solutions to related subproblems. See \cref{sec:adpcfl_efficiency} and \citet[sect. 15.3]{cormen_introduction_2009}}}
+    
+\newglossaryentry{overlappingsubproblems}{
+		name={Overlapping subproblems},
+		text={overlapping subproblems},
+    description={A problem has overlapping subproblems if the space of distinct subproblems is ``small'' such that a recursive algorithm to the problem revisits the same subproblems
+repeatedly. See \cref{sec:adpcfl_efficiency} and \citet[sect. 15.3]{cormen_introduction_2009}}}
+    
+\newglossaryentry{dpequation}{
+		name={Dynamic programming equation},
+		text={dynamic programming equation},
+    description={The class of functional equations solvable by \emph{\gls{dynamicprogramming}}. Also known as Bellman equations, or (dynamic programming) recurrences. For an example, see the equations at the end of \cref{sec:ex_translation}. More details can be found in \citet{bellman_dynamic_1957}}}
+    
+\newglossaryentry{recurrence}{
+		name={Recurrence},
+		text={Recurrence},
+    description={See \emph{\gls{dpequation}}}}
+
+\glsaddall

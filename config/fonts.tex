@@ -1,0 +1,21 @@
+\usepackage{fontspec}
+\usepackage{mathpazo} % non-fancy math font for Pagella/Palatino
+
+\defaultfontfeatures{Ligatures=TeX}
+
+% use microtype, see http://tex.stackexchange.com/a/42539/6255
+\pdfprotrudechars=2
+\pdfadjustspacing=2
+\newfontfeature{Microtype}{protrusion=default;expansion=default;}
+
+% see http://tex.stackexchange.com/questions/48159
+\directlua{fonts.protrusions.setups.default.factor=0.5} % default: 1
+\directlua{fonts.expansions.setups.default.stretch=1.5} % default: 2
+
+\setmainfont[Microtype]{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}
+
+\frenchspacing
+
+\setkomafont{caption}{\small}
+\setkomafont{captionlabel}{\usekomafont{caption}}

@@ -1,0 +1,18 @@
+\usepackage{fancyvrb}
+
+\usepackage{listings}
+\usepackage{caption}
+
+\lstset{
+  basicstyle=\small\ttfamily,
+  breaklines=true,
+  numbers=left,
+  numberblanklines=false,
+  numberstyle=\tiny,
+  captionpos=t,
+  language=Haskell
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth-6.8pt}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}

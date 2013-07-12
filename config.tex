@@ -1,0 +1,58 @@
+\usepackage{scrhack}
+
+\usepackage[T1]{fontenc}
+\usepackage[log-declarations=false]{xparse} % http://tex.stackexchange.com/questions/46683
+\usepackage[svgnames]{xcolor}
+
+\input{config/ams}
+\input{config/fonts}
+\input{config/listings}
+
+\usepackage{enumitem} % http://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+
+\usepackage{quoting}
+\usepackage[threshold=2]{csquotes}
+\SetBlockEnvironment{quoting}
+
+\usepackage{graphicx}
+\input{config/tikz}
+\input{config/tikz-qtree}
+
+\usepackage[disable]{todonotes}
+\newcommand{\TODO}[1]{\todo{#1}}
+
+\usepackage{booktabs}
+\usepackage{colortbl}
+
+\usepackage{varioref} % must be loaded before hyperref
+
+\usepackage{url}
+\usepackage[
+		unicode,hidelinks,
+		pdfstartview=FitH,
+    % --- temporary settings
+    %pdfstartview=Fit,
+    %pdfpagelayout=TwoPageRight,
+    %pdfstartpage=40,
+    % ---
+    pdflang={en-GB},
+    pdftitle={Master's Thesis},
+    pdfauthor={Maik Riechert},
+    pdfcreator={LaTeX with hyperref},
+    pdfsubject={Algebraic Dynamic Programming for Multiple Context-Free Languages},
+    pdfkeywords={algebraic dynamic programming,multiple context-free grammars,multiple context-free languages,regular tree grammars,algebraic structures,multisets}]{hyperref}
+
+\usepackage[nameinlink,noabbrev]{cleveref} % must be loaded after varioref and hyperref
+\creflabelformat{equation}{#2#1#3} % no ( ) around equation refs
+\crefname{exampleOri}{example}{examples}
+\Crefname{exampleOri}{Example}{Examples}
+		
+% include Contents as pdf bookmark
+\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}}
+		
+\input{config/biblatex}
+\input{config/glossary}
+\input{config/ushyphex}
+
+
+

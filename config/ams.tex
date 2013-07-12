@@ -1,0 +1,100 @@
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{thmtools} % for custom 'qed' symbol outside proofs
+\usepackage{amssymb}
+\usepackage{mathtools} % for math versions of \llap, \rlap etc.
+
+\usepackage[framemethod=TikZ]{mdframed}
+\colorlet{shadecolor}{gray!10}
+
+\usepackage{bm} % bold math: \bm{..}
+\newcommand{\bftt}[1]{\textbf{\texttt{#1}}}	% typesets as text in math mode
+
+%\newcommand{\ts}[1]{\bftt{#1}} % ts = terminal symbol
+% vphantom für trees http://tex.stackexchange.com/a/100859/6255
+\newcommand{\ts}[1]{\bftt{#1}\protect\vphantom{\bftt{(}}} 
+
+\allowdisplaybreaks[1] % split long equations on page breaks
+
+% fix spacing for \left..\right
+% http://tex.stackexchange.com/questions/2607/spacing-around-left-and-right
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+%\usepackage{mleftright}
+
+\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{corollary}{Corollary}
+
+\declaretheoremstyle[
+	spaceabove=10pt,
+	notefont=\normalfont,
+	headpunct={\normalfont:},
+	bodyfont=\normalfont,
+	postheadspace=\newline,
+	qed=\ensuremath{\triangleleft}
+]{mydefinition}
+
+\declaretheoremstyle[
+	spaceabove=0pt,
+	spacebelow=0pt,
+	notefont=\normalfont,
+	headpunct={\normalfont:},
+	bodyfont=\normalfont,
+	postheadspace=\newline
+]{myexample}
+
+\declaretheoremstyle[
+	spaceabove=10pt,
+	notefont=\normalfont,
+	headpunct={\normalfont:},
+	bodyfont=\normalfont\itshape,
+	postheadspace=\newline,
+	qed=\ensuremath{\triangleleft}
+]{mytheorem}
+
+\declaretheoremstyle[
+	numbered=no,
+	spaceabove=6pt,
+	headfont=\normalfont\itshape,
+	notefont=\normalfont,
+	headpunct={\normalfont:},
+	bodyfont=\normalfont,
+	qed=\ensuremath{\triangleleft}
+]{myremark}
+
+\renewcommand\thmcontinues[1]{Continued}
+
+\declaretheorem[name=Definition,style=mydefinition]{definition}
+
+\declaretheorem[name=Example,style=myexample,
+	mdframed={
+		hidealllines=true,leftline=true,bottomline=true,roundcorner=5pt,
+    innertopmargin=0pt,
+		rightmargin=0pt,innerrightmargin=0pt,
+		innerlinewidth=0pt,middlelinewidth=0pt,
+		outerlinecolor=shadecolor,outerlinewidth=3pt,
+    backgroundcolor=none,
+		skipabove=\topskip,skipbelow=\topskip,
+		}
+	]{example}
+
+\declaretheorem[name=Theorem,style=mytheorem]{theorem}
+
+\declaretheorem[name=Remark,style=myremark]{remark}
+\declaretheorem[name=Note,style=myremark]{note}
+
+%\newcommand*{\op}[1]{\operatorname{#1}}
+\newcommand*{\op}[1]{\mathrm{#1}}
+
+%\usepackage{stmaryrd} % for double brackets
+\usepackage{textcomp} % for double brackets
+%workaround until stmaryrd works
+\newcommand*{\llbracket}{\text{\textlbrackdbl}}
+\newcommand*{\rrbracket}{\text{\textrbrackdbl}}
+
+\newcommand\concat{\ensuremath{\mathbin{+\mkern-5mu+}}}

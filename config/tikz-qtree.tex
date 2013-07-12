@@ -1,0 +1,16 @@
+\usepackage{tikz-qtree}
+
+%http://tex.stackexchange.com/a/100879/6255
+\newenvironment{spreadTrees}{%
+    \expandafter\def\expandafter\pgfpicture\expandafter{\expandafter\hfill\pgfpicture}%
+    \center
+}{%
+    \hfill\null\endcenter
+}
+
+\newenvironment{spreadTrees*}{%
+    %\noindent (if not only used inside floats)
+    \expandafter\def\expandafter\pgfpicture\expandafter{\expandafter\hfill\pgfpicture}%
+}{%
+    \hfill\null
+}

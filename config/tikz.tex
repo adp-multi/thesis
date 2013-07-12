@@ -1,0 +1,331 @@
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,chains,calc}
+
+\usepackage{gnuplot-lua-tikz}
+
+\makeatletter
+% tikz-qtree workaround http://tex.stackexchange.com/a/66927/6255
+\let\orig@tikz@edge@to@parent@path=\tikz@edge@to@parent@path
+\tikzset{
+  original tree type/.code={%
+    \let\tikz@edge@to@parent@path=\orig@tikz@edge@to@parent@path
+  }
+}
+\makeatother
+
+\tikzset{
+	math mode/.style={
+		execute at begin node=$,
+		execute at end node=$
+	}
+}
+
+\tikzset{
+	grammar rule tree/.style={
+	  math mode,
+		baseline={([yshift=-2.3ex]current bounding box.north)}
+	}
+}
+
+% see http://tex.stackexchange.com/a/88548/6255
+\newbox\collectbox
+\tikzset{
+    raise text/.style={
+        execute at begin node={\setbox\collectbox=\hbox\bgroup},
+        execute at end node={%
+            \egroup%
+            \phantom{\copy\collectbox}%
+            \kern-\wd\collectbox%
+            \smash{\raisebox{#1}{\box\collectbox}}}
+    }
+}
+
+% styles for RNA grammar diagrams
+\tikzset{
+	rna grammar rule/.style={
+		remember picture, % needed when reverse clipping is used
+		start chain,
+		node distance=0.25,
+		every join/.style={thick},
+		basepair edge/.style={
+			ultra thick,
+			out=50,in=130
+		},
+		font=\footnotesize
+	},
+	char/.style={
+		on chain,
+		inner sep=0pt
+	},
+	nonterminal/.style={
+		rectangle,
+		draw,
+		on chain,
+		minimum width=50pt,
+		minimum height=14pt,
+	},
+	phantom rectangle/.style={
+		on chain,
+		minimum size=14pt,
+	},
+	terminal/.style={
+		char,
+		draw,
+		circle,
+		minimum size=14pt,
+		text height=1.5ex,text depth=.25ex % adjust baselines
+	},
+	empty word/.style={
+		rectangle,
+		dashed,
+		draw,
+		on chain,
+		minimum size=14pt
+	},
+	base/.style={
+		circle,
+		draw,
+		fill,		
+		on chain,
+		minimum size=14pt
+	},
+	derive sign/.style={
+		char,
+		inner xsep=5pt,
+		font=\Huge,
+		execute at begin node=\raisebox{-0.4cm}{$\rightarrow$}
+	},
+	or sign/.style={
+		char,
+		font=\Huge,
+		execute at begin node=|
+	}
+}
+
+% styles for RNA secondary structures
+\tikzset{
+	rna secondary structure/.style={
+		node distance=0.2,
+		font=\footnotesize,
+		every join/.style={thick},
+		basepair edge/.style={ultra thick},
+		natural/.style={
+			every node/.style={terminal,join},
+			start chain
+		},
+		linear/.style={
+			every node/.style={terminal,join},
+			start chain,
+			basepair edge/.style={
+				ultra thick,
+				out=90,in=90
+			}
+		},
+		circular/.style 2 args={% number of nodes, radius
+			every node/.style={terminal,join},
+			start chain=placed {at=(270-\tikzchaincount*360/##1+180/##1:##2)}
+		},
+		filled bases/.style={
+			every node/.style={base,join},
+		},
+		count bases/.style={
+			execute at end node=\tikzchaincount
+		},
+		dot bracket/.style={% useful for aligning under linear style
+			every node/.style={% same as terminal, but without ``draw'' and bigger font
+				char,
+				circle,
+				font=\normalsize\ttfamily,
+				minimum size=14pt,
+				text height=1.5ex,text depth=.25ex % adjust baselines
+			},
+			start chain
+		},
+		dot bracket primary/.style={% useful for aligning under linear style
+			dot bracket,
+			every node/.style={% same as terminal, but without ``draw'' and bigger font
+				char,
+				circle,
+				font=\footnotesize,
+				minimum size=14pt,
+				text height=1.5ex,text depth=.25ex % adjust baselines
+			},
+		}
+	}
+}
+
+% two dimensional nonterminal
+% the phantom nodes should be rectangles (to access their anchors)
+\newcommand*{\nonterminaltwo}[4][0.0]{% looseness adjustment (optional),1st node, 2nd node, label text
+	\pgfmathsetmacro{\loosea}{0.85+(#1)}
+	\pgfmathsetmacro{\looseb}{1.0+(#1)}
+	\draw[save path=\myclippath]
+				(#2.south east) to [in=90, out=90, looseness=\loosea] node[above=-1pt]{#4} (#3.south west)
+				-- (#3.south east)
+				to [in=90, out=90, looseness=\looseb] (#2.south west) -- cycle;
+	\reverseclip{\myclippath}
+}
+
+\tikzset{
+  reverseclip/.style={
+    clip even odd rule,
+    insert path={(current page.north east) --
+      (current page.south east) --
+      (current page.south west) --
+      (current page.north west) --
+      (current page.north east)}
+  },
+  clip even odd rule/.code={\pgfseteorule}
+}
+
+\newcommand*{\reverseclip}[1]{
+  \begin{pgfinterruptboundingbox}
+      \clip[reverseclip] \againpath #1;
+  \end{pgfinterruptboundingbox}
+}
+
+% http://tex.stackexchange.com/a/28537/6255
+% usage: \draw[red] \convexpath{a,b,c,d}{1cm};
+% ACHTUNG: nodes müssen im uhrzeigersinn angegeben werden
+\newcommand{\convexpath}[2]{
+  [   
+  create hullcoords/.code={
+    \global\edef\namelist{#1}
+    \foreach [count=\counter] \nodename in \namelist {
+      \global\edef\numberofnodes{\counter}
+      \coordinate (hullcoord\counter) at (\nodename);
+    }
+    \coordinate (hullcoord0) at (hullcoord\numberofnodes);
+    \pgfmathtruncatemacro\lastnumber{\numberofnodes+1}
+    \coordinate (hullcoord\lastnumber) at (hullcoord1);
+  },
+  create hullcoords
+  ]
+  ($(hullcoord1)!#2!-90:(hullcoord0)$)
+  \foreach [
+  evaluate=\currentnode as \previousnode using \currentnode-1,
+  evaluate=\currentnode as \nextnode using \currentnode+1
+  ] \currentnode in {1,...,\numberofnodes} {
+    let \p1 = ($(hullcoord\currentnode) - (hullcoord\previousnode)$),
+    \n1 = {atan2(\x1,\y1) + 90},
+    \p2 = ($(hullcoord\nextnode) - (hullcoord\currentnode)$),
+    \n2 = {atan2(\x2,\y2) + 90},
+    \n{delta} = {Mod(\n2-\n1,360) - 360}
+    in 
+    {arc [start angle=\n1, delta angle=\n{delta}, radius=#2]}
+    -- ($(hullcoord\nextnode)!#2!-90:(hullcoord\currentnode)$) 
+  }
+}
+
+%\newcommand*{\arcthickness}{1}
+%\newcommand*{\myarc}[4]{ % x,y,radius,text  
+%
+   %node is positioned by splitting the arc in two parts (workaround until new pgf is released)
+   %see http://tex.stackexchange.com/a/76369/6255
+  %\draw[thick,save path=\arcclippath] 
+              %(#1,#2) arc (180:90:#3)
+              %node[below=-1.5pt] {\tiny #4}
+              %arc (90:0:#3)
+              %-- ++(-\arcthickness,0) arc (0:180:#3-\arcthickness) -- cycle;
+	%\reverseclip{\arcclippath}
+%}
+%
+%\newcommand{\secstruc}[3]{ % x,y,radius
+	%\draw [thick] (#1,#2) -- ++(#3*2,0);
+	%\draw [thick,dash pattern=on 2pt off 1pt] (#1+2*#3,#2) arc (0:180:#3);
+%}
+
+%\begin{tikzpicture}[remember picture,x=0.3cm,y=0.3cm]
+	%
+	%\myarc{4.8}{0}{4.1}{Hs}
+	%\myarc{2.4}{0}{4.1}{Hs}
+	%\myarc{0}{0}{4.1}{G}
+	%\secstruc{1.2}{0}{0.5}
+	%\secstruc{3.6}{0}{0.5}
+	%\secstruc{6}{0}{0.5}
+	%\secstruc{10.8}{0}{0.5}
+	%
+%\end{tikzpicture}
+
+
+% need matrix functionality for that
+%\begin{tikzpicture}[rna secondary structure]
+	%\begin{scope}[natural]
+		%\node[continue chain=going above] {C};
+		%\node {A};
+		%\node {A};
+		%\node {U};
+		%\node {U};
+		%\node {U};
+		%\node {U};
+		%\node[yshift=19pt] {C};
+		%\node[continue chain=going right,xshift=20pt] {U};
+		%\node[continue chain=going below] {G};
+		%\node[] {A};
+		%\node[join=with chain-6 by {basepair edge}] {A};
+		%\node[join=with chain-5 by {basepair edge}] {A};
+		%\node[join=with chain-4 by {basepair edge}] {A};
+		%\node[join=with chain-3 by {basepair edge}] {U};
+		%\node[join=with chain-2 by {basepair edge}] {U};
+		%\node[continue chain=going right,xshift=20pt] {U};
+		%\node[continue chain=going above,yshift=80pt,join=with chain-11 by {basepair edge}] {U};
+		%\node[join=with chain-10 by {basepair edge}] {C};
+		%\node[join=with chain-9 by {basepair edge}] {A};
+		%\node {C};
+	%\end{scope}
+%\end{tikzpicture}
+
+%\begin{tikzpicture}[rna secondary structure]
+	%\begin{scope}[circular={21}{2.5}]
+		%\node {C};
+		%\node {A};
+		%\node {A};
+		%\node {U};
+		%\node {U};
+		%\node {U};
+		%\node {U};
+		%\node {C};
+		%\node {U};
+		%\node {G};
+		%\node {A};
+		%\node[join=with chain-6 by {basepair edge}] {A};
+		%\node[join=with chain-5 by {basepair edge}] {A};
+		%\node[join=with chain-4 by {basepair edge}] {A};
+		%\node[join=with chain-3 by {basepair edge}] {U};
+		%\node[join=with chain-2 by {basepair edge}] {U};
+		%\node {U};
+		%\node[join=with chain-11 by {basepair edge}] {U};
+		%\node[join=with chain-10 by {basepair edge}] {C};
+		%\node[join=with chain-9 by {basepair edge}] {A};
+		%\node {C};
+	%\end{scope}
+%\end{tikzpicture}
+
+
+	% grammar rules
+	%\begin{align*}
+		%Z &\rightarrow
+		%\begin{tikzpicture}[grammar rule tree]
+			%\node {\op{f}_1}
+				%child { node {X} }
+				%child { node {X} }
+				%child { node {a} };
+		%\end{tikzpicture} \mid 
+		%\begin{tikzpicture}[grammar rule tree]
+			%\node {\op{f}_2}
+				%child { node {b} }
+				%child { node {X} };
+		%\end{tikzpicture}
+		%\\
+		%X &\rightarrow 
+		%\begin{tikzpicture}[grammar rule tree]
+			%\node {\op{f}_3}
+				%child { node {b} }
+				%child { node {b} };
+		%\end{tikzpicture} \mid 
+		%\begin{tikzpicture}[grammar rule tree]
+			%\node {\op{f}_3}
+				%child { node {c} }
+				%child { node {c} };
+		%\end{tikzpicture}
+	%\end{align*}

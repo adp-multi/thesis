@@ -1,3 +1,11 @@
+*.tmp
+*.bcf
+*.run.xml
+*.tcp
+*.tco
+*.tdo
+*.thm
+*.tps
 *.aux
 *.glo
 *.idx
@@ -16,6 +24,7 @@
 *.ind
 *.lof
 *.lot
+*.lol
 *.maf
 *.mtc
 *.mtc1
